@@ -1,6 +1,8 @@
 
 The focus of this project was a simple implementation of **Minimal Api** with **Sql Lite** and **Entity Framework**.
 
+![#](https://github.com/HenrySaldanha/AspNet.MinimalApi/blob/main/images/api.png?raw=true)
+
 ## Packages
     EntityFramework
     Flunt
