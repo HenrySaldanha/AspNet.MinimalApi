@@ -1,0 +1,1 @@
+﻿public record Movie(Guid Id, string Name, DateTime Released, Genre Genre);
