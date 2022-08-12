@@ -33,15 +33,15 @@ In the Program class was configured a database, json input and output, sql lite 
 ## EndPoints
 End points were implemented in the Program class.
 
-	app.MapGet("/movie", (MovieRepository service) =>
+	app.MapGet("/movie", (MovieRepository repository) =>
 	{
-	    var movies = service.Get();
+	    var movies = repository.Get();
 	    return Results.Ok(movies.Select(m => (MovieResponse)m));
 	}).Produces<IEnumerable<Movie>>(StatusCodes.Status200OK);
 
-	app.MapGet("/movie/{id}", (MovieRepository service, Guid id) =>
+	app.MapGet("/movie/{id}", (MovieRepository repository, Guid id) =>
 	{
-	    var movie = service.Get(id);
+	    var movie = repository.Get(id);
 	    if (movie is null)
 	        return Results.NotFound();
 
@@ -49,25 +49,25 @@ End points were implemented in the Program class.
 	}).Produces<Movie>(StatusCodes.Status200OK)
 	.Produces(StatusCodes.Status404NotFound);
 
-	app.MapPost("/movie", (MovieRepository service, CreateMovieRequest request) =>
+	app.MapPost("/movie", (MovieRepository repository, CreateMovieRequest request) =>
 	{
 	    Movie movie = request;
 	    if (!request.IsValid)
 	        return Results.BadRequest(request.Notifications);
 
-	    service.Create(movie);
+	    repository.Create(movie);
 
 	    return Results.Created("/movie", (MovieResponse)movie);
 	}).Produces<Movie>(StatusCodes.Status201Created)
 	.Produces(StatusCodes.Status400BadRequest);
 
-	app.MapDelete("/movie/{id}", (MovieRepository service, Guid id) =>
+	app.MapDelete("/movie/{id}", (MovieRepository repository, Guid id) =>
 	{
-	    var movie = service.Get(id);
+	    var movie = repository.Get(id);
 	    if (movie is null)
 	        return Results.NotFound();
 
-	    service.Delete(movie);
+	    repository.Delete(movie);
 
 	    return Results.Accepted();
 	}).Produces(StatusCodes.Status202Accepted)
